@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      It is time for wbma photo streak!!!
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <p><button (click)="loggingout()">Log out</button>
+    <button (click)="toUppload()">Upload photos</button>
+    Logged in as: {{userName}}</p>
+  <p>Showing {{startingPoint}} -  {{lastOfPage}}/{{filecount}}</p>
+  <p><button (click)="goToFirstSet()">To first ones</button>
+    <button (click)="viewPreviousPhotos()">Previous</button>
+  <button (click)="viewNextPhotos()">Next</button>
+  <button (click)="goToLastSet()">To last ones</button> </p>
+  <div id="flextime">
+    <ul>
+      <li *ngFor = "let imagefile of imagefiles">
+        <h3>Title: {{imagefile.title}}</h3>
+        <p>Description: {{imagefile.description}}</p>
+        <img [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + (imagefile?.filename | thumbnail: 'small')"/>
+        <p>Time added: {{imagefile.time_added}}</p>
+      </li>
+  </ul>
+  </div>
+</ion-content>
