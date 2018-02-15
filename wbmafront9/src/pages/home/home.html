@@ -20,7 +20,11 @@
       <li *ngFor = "let imagefile of imagefiles">
         <h3>Title: {{imagefile.title}}</h3>
         <p>Description: {{imagefile.description}}</p>
-        <img [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + (imagefile?.filename | thumbnail: 'small')"/>
+        <div (click)="goToFileview(imagefile.media_type)">
+          <div *ngIf="imagefile.media_type === 'image'"><img [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + (imagefile?.filename | thumbnail: 'small')"/></div>
+          <div *ngIf="imagefile.media_type === 'audio'"><p>Audiota pukkaa</p></div>
+          <div *ngIf="imagefile.media_type === 'video'"><p>Videota pukkaa</p></div>
+        </div>
         <p>Time added: {{imagefile.time_added}}</p>
       </li>
   </ul>

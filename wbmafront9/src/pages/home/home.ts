@@ -136,6 +136,12 @@ export class HomePage {
       this.imagefiles = response3;
     });
   }
+  
+  goToFileview(typeOfFile:string){
+    console.log(typeOfFile);
+  }
+
+
 }
 
 
