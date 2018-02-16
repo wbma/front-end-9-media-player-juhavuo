@@ -6,6 +6,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {LoginPage} from "../login/login";
 import {UploadPage} from "../upload/upload";
 import {Mediaquery} from "../../models/Mediaquery";
+import {FileviewPage} from "../fileview/fileview";
 
 @Component({
   selector: 'page-home',
@@ -13,13 +14,20 @@ import {Mediaquery} from "../../models/Mediaquery";
 })
 export class HomePage {
 
+  paramsForFile: any;
   startingPoint = 0;
   photosPerView = 10;
   lastOfPage = this.photosPerView-1;
   addingtime = '';
   userName = '';
 
-  imagefile: Imagefile = {
+  files: any;
+  query: any;
+  filecount: 0;
+  baseurl = ' http://media.mw.metropolia.fi/wbma/uploads/';
+  srcforimage = this.baseurl;
+
+  mediafile: Imagefile = {
     file_id: 0,
     filename: '',
     filesize: 0,
@@ -31,20 +39,16 @@ export class HomePage {
     time_added: ''
   };
 
+  mediafiles: Imagefile[];
+
   mediaquery: Mediaquery = {
     "file_count" : {
       "total": 0,
       "image": 0,
       "video": 0,
       "audio": 0
-}
+    }
   }
-
-  imagefiles: any;
-  query: any;
-  filecount: 0;
-  baseurl = ' http://media.mw.metropolia.fi/wbma/uploads/';
-  srcforimage = this.baseurl;
 
   constructor(public navCtrl: NavController, public mediaProvider: MediaProvider) {
 
@@ -59,7 +63,8 @@ export class HomePage {
         this.mediaProvider.getNewMediaFiles(0, this.photosPerView).subscribe(response2 => {
           console.log(response2);
           if (response2 !== undefined || response2 !== null) {
-            this.imagefiles = response2;
+            this.files = response2;
+            this.mediafiles = this.files;
             //get the amount of total files
             this.mediaProvider.getAllMediaFiles().subscribe(response4 => {
               if (response4 !== undefined){
@@ -133,12 +138,19 @@ export class HomePage {
 
   getMediaFiles(){
     this.mediaProvider.getNewMediaFiles(this.startingPoint,this.photosPerView).subscribe(response3 => {
-      this.imagefiles = response3;
+      this.files = response3;
+      this.mediafiles = this.files;
     });
   }
-  
-  goToFileview(typeOfFile:string){
-    console.log(typeOfFile);
+
+  goToFileview(file_id:number,typeOfFile:string){
+
+    this.paramsForFile = {
+      "file_id":file_id,
+      "media_type":typeOfFile
+    };
+
+    this.navCtrl.push(FileviewPage, this.paramsForFile);
   }
 
 

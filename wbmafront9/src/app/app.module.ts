@@ -12,6 +12,7 @@ import {LoginPage} from "../pages/login/login";
 import {RegistrationPage} from "../pages/registration/registration";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {UploadPage} from "../pages/upload/upload";
+import {FileviewPage} from "../pages/fileview/fileview";
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {UploadPage} from "../pages/upload/upload";
     LoginPage,
     RegistrationPage,
     UploadPage,
+    FileviewPage,
     ThumbnailPipe
   ],
   imports: [
@@ -34,7 +36,8 @@ import {UploadPage} from "../pages/upload/upload";
     HomePage,
     LoginPage,
     RegistrationPage,
-    UploadPage
+    UploadPage,
+    FileviewPage
   ],
   providers: [
     StatusBar,

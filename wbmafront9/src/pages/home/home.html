@@ -17,15 +17,19 @@
   <button (click)="goToLastSet()">To last ones</button> </p>
   <div id="flextime">
     <ul>
-      <li *ngFor = "let imagefile of imagefiles">
-        <h3>Title: {{imagefile.title}}</h3>
-        <p>Description: {{imagefile.description}}</p>
-        <div (click)="goToFileview(imagefile.media_type)">
-          <div *ngIf="imagefile.media_type === 'image'"><img [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + (imagefile?.filename | thumbnail: 'small')"/></div>
-          <div *ngIf="imagefile.media_type === 'audio'"><p>Audiota pukkaa</p></div>
-          <div *ngIf="imagefile.media_type === 'video'"><p>Videota pukkaa</p></div>
+      <li *ngFor = "let mediafile of mediafiles">
+        <h3>Title: {{mediafile.title}}</h3>
+        <p>Description: {{mediafile.description}}</p>
+        <div (click)="goToFileview(mediafile.file_id,mediafile.media_type)">
+          <div *ngIf="mediafile.media_type === 'image'"><img [src]="mediaProvider.mediaUrl + (mediafile.filename | thumbnail: 'small')"/></div>
+          <div *ngIf="mediafile.media_type === 'audio'">
+            <audio controls>
+              <source [src] ="mediaProvider.mediaUrl + mediafile.filename" [type]="mediafile.mime_type">
+            </audio>
+          </div>
+          <div *ngIf="mediafile.media_type === 'video'"><p>Videota pukkaa</p></div>
         </div>
-        <p>Time added: {{imagefile.time_added}}</p>
+        <p>Time added: {{mediafile.time_added}}</p>
       </li>
   </ul>
   </div>

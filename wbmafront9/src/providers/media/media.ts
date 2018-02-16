@@ -24,6 +24,7 @@ export class MediaProvider {
   };
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
+  mediaUrl ='http://media.mw.metropolia.fi/wbma/uploads/';
 
   const;
   settingsX = {
@@ -87,6 +88,10 @@ export class MediaProvider {
 
   public getAllMediaFiles(){
     return this.http.get(this.apiUrl + '/media/all', this.settingsX);
+  }
+
+  public findMediafileWithsId(fileId:number){
+    return this.http.get(this.apiUrl + '/media/' + fileId, this.settingsX);
   }
 
 }
