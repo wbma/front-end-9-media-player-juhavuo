@@ -16,6 +16,10 @@
 <ion-content padding>
   <p>{{fileId}}</p>
   <div *ngIf="mediafile.media_type === 'image'"><img [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + (mediafile?.filename)"/></div>
-  <div *ngIf="mediafile.media_type === 'audio'"><p>Audiota pukkaa</p></div>
+  <div *ngIf="mediafile.media_type === 'audio'">
+    <audio *ngIf="mediafile.media_type == 'audio'" controls>
+      <source  [src] ="mediaProvider.mediaUrl + mediafile.filename" [type]="mediafile.mime_type">
+    </audio>
+  </div>
   <div *ngIf="mediafile.media_type === 'video'"><p>Videota pukkaa</p></div>
 </ion-content>

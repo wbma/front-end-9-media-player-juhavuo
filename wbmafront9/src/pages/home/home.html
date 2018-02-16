@@ -21,13 +21,12 @@
         <h3>Title: {{mediafile.title}}</h3>
         <p>Description: {{mediafile.description}}</p>
         <div (click)="goToFileview(mediafile.file_id,mediafile.media_type)">
-          <div *ngIf="mediafile.media_type === 'image'"><img [src]="mediaProvider.mediaUrl + (mediafile.filename | thumbnail: 'small')"/></div>
-          <div *ngIf="mediafile.media_type === 'audio'">
-            <audio controls>
-              <source [src] ="mediaProvider.mediaUrl + mediafile.filename" [type]="mediafile.mime_type">
-            </audio>
-          </div>
-          <div *ngIf="mediafile.media_type === 'video'"><p>Videota pukkaa</p></div>
+          <img *ngIf="mediafile.media_type == 'image'" [src]="mediaProvider.mediaUrl + (mediafile.filename | thumbnail: 'small')"/>
+          <h2 *ngIf="mediafile.media_type == 'audio'">Audio</h2>
+          <div *ngIf="mediafile.mime_type == 'video/mp4'">
+            <video [poster] = "mediaProvider.mediaUrl + (mediafile.filename | thumbnail: 'small')" ></video>
+            <p>mp4-video</p>
+        </div>
         </div>
         <p>Time added: {{mediafile.time_added}}</p>
       </li>
