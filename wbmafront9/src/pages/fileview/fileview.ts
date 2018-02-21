@@ -18,8 +18,8 @@ import {Imagefile} from "../../models/Imagefile";
 })
 export class FileviewPage {
 
-  fileId:number;
-  fileType:string;
+  fileId: number;
+  sizetext = '';
 
   shownFile: any;
 
@@ -51,7 +51,15 @@ export class FileviewPage {
       console.log(response);
       this.shownFile = response;
       this.mediafile = this.shownFile;
+      if(this.mediafile.filesize>1024*1024) {
+        this.mediafile.filesize = Math.round(100 * this.mediafile.filesize / (1024 * 1024)) / 100;
+        this.sizetext = ''+this.mediafile.filesize+ ' MB';
+      }else{
+        this.mediafile.filesize = Math.round(100*this.mediafile.filesize/ 1024)/100;
+        this.sizetext = '' + this.mediafile.filesize + ' kB';
+      }
     });
   }
 
 }
+
