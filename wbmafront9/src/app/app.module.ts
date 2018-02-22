@@ -13,6 +13,7 @@ import {RegistrationPage} from "../pages/registration/registration";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {UploadPage} from "../pages/upload/upload";
 import {FileviewPage} from "../pages/fileview/fileview";
+import {TimeFormatterPipe} from "../pipes/time-formatter/time-formatter";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {FileviewPage} from "../pages/fileview/fileview";
     RegistrationPage,
     UploadPage,
     FileviewPage,
-    ThumbnailPipe
+    ThumbnailPipe,
+    TimeFormatterPipe
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import {FileviewPage} from "../pages/fileview/fileview";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MediaProvider,
-    ThumbnailPipe
+    ThumbnailPipe,
+    TimeFormatterPipe
   ]
 })
 export class AppModule {}
