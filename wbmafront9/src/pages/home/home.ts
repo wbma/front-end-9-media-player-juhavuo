@@ -7,6 +7,7 @@ import {LoginPage} from "../login/login";
 import {UploadPage} from "../upload/upload";
 import {Mediaquery} from "../../models/Mediaquery";
 import {FileviewPage} from "../fileview/fileview";
+import {UserInfo} from "../../models/UserInfo";
 
 @Component({
   selector: 'page-home',
@@ -18,14 +19,14 @@ export class HomePage {
   startingPoint = 0;
   photosPerView = 10;
   lastOfPage = this.photosPerView-1;
-  addingtime = '';
   userName = '';
+  adderOfFile = '';
 
   files: any;
   query: any;
   filecount: 0;
-  baseurl = ' http://media.mw.metropolia.fi/wbma/uploads/';
-  srcforimage = this.baseurl;
+
+  userInfo:any;
 
   mediafile: Imagefile = {
     file_id: 0,
@@ -36,8 +37,10 @@ export class HomePage {
     user_id: 0,
     media_type: '',
     mime_type: '',
-    time_added: ''
+    time_added: '',
+    user_name: ''
   };
+
 
   mediafiles: Imagefile[];
 
@@ -65,20 +68,30 @@ export class HomePage {
           if (response2 !== undefined || response2 !== null) {
             this.files = response2;
             this.mediafiles = this.files;
-            //get the amount of total files
-            this.mediaProvider.getAllMediaFiles().subscribe(response4 => {
-              if (response4 !== undefined){
-                this.query=response4;
-                this.filecount=this.query.file_count.total;
-            }else{
-              console.log(undefined);
+            console.log(this.mediafiles);
+
+            //find all the usernames corresponding to user_id:s of the ones that added files
+            for(let i = 0; i<this.mediafiles.length;++i){
+              this.mediaProvider.getUserInfo(this.mediafiles[i].user_id).subscribe(response => {
+                this.mediafiles[i].user_name = response['username'];
+              });
             }
-            });
           } else if (response2 === null) {
             console.log('null');
           } else {
             console.log('undefined');
           }
+
+          //get the amount of total files
+          this.mediaProvider.getAllMediaFiles().subscribe(response4 => {
+            if (response4 !== undefined){
+              this.query=response4;
+              this.filecount=this.query.file_count.total;
+            }else{
+              console.log(undefined);
+            }
+          });
+
         });
       }, (error: HttpErrorResponse) => {
         console.log(error);
@@ -140,6 +153,19 @@ export class HomePage {
     this.mediaProvider.getNewMediaFiles(this.startingPoint,this.photosPerView).subscribe(response3 => {
       this.files = response3;
       this.mediafiles = this.files;
+      for(let i = 0; i<this.mediafiles.length;++i){
+        this.mediaProvider.getUserInfo(this.mediafiles[i].user_id).subscribe(response => {
+          this.mediafiles[i].user_name = response['username'];
+          /*
+          this.userInfo = response;
+          if(this.userInfo !== undefined) {
+            this.mediafiles[i].user_name = this.userInfo.username;
+          }else{
+            this.mediafiles[i].user_name = 'unknown';
+          }
+          */
+        });
+      }
     });
   }
 
@@ -153,6 +179,17 @@ export class HomePage {
     this.navCtrl.push(FileviewPage, this.paramsForFile);
   }
 
+  getUsernameOfId(id:number): string{
+    let name = 'jill';
+    this.mediaProvider.getUserInfo(id).subscribe(response => {
+        this.userInfo = response;
+
+    });
+    if(this.userInfo !== undefined) {
+      name = this.userInfo.username;
+    }
+    return name;
+  }
 
 }
 

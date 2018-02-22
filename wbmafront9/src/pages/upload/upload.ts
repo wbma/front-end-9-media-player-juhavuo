@@ -27,7 +27,8 @@ export class UploadPage {
     user_id: 0,
     media_type: '',
     mime_type: '',
-    time_added: ''
+    time_added: '',
+    user_name: ''
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {

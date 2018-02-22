@@ -32,7 +32,8 @@ export class FileviewPage {
     user_id: 0,
     media_type: '',
     mime_type: '',
-    time_added: ''
+    time_added: '',
+    user_name: ''
   };
 
   fileParameters: FileParameters;

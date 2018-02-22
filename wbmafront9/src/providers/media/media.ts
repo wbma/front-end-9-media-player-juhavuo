@@ -94,4 +94,8 @@ export class MediaProvider {
     return this.http.get(this.apiUrl + '/media/' + fileId, this.settingsX);
   }
 
+  public getUserInfo(userId:number){
+    return this.http.get(this.apiUrl+'/users/'+userId,this.settingsX);
+  }
+
 }

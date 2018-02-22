@@ -10,7 +10,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TimeFormatterPipe implements PipeTransform {
   /**
-   * Takes a value and makes it lowercase.
+   * Changes time to format day mothname year hh:mm:ss
    */
   transform(value: string): string {
       let returnstring = '';
