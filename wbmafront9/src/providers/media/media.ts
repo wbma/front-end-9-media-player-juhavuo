@@ -37,7 +37,6 @@ export class MediaProvider {
 
   public login() {
 
-
     const body = {
       username: this.username,
       password: this.password
@@ -70,32 +69,43 @@ export class MediaProvider {
     return this.http.get(this.apiUrl + '/users/user', this.settingsX);
   }
 
-  /*
-  logout() {
 
-    localStorage.removeItem('token');
-    this.navCtrl.push(LoginPage);
-  }*/
 
   public register(user: User) {
 
     return this.http.post(this.apiUrl + '/users', user, this.options);
   }
 
+  /*
+    This is used to show files for one view in home-page
+   */
   public getNewMediaFiles(start: number, amount: number) {
     return this.http.get(this.apiUrl + '/media?start=' + start + '&limit=' + amount, this.settingsX);
   }
 
+  /*
+    This is needed to get the total amount of files so that one can navigate to view the last files in home-page
+   */
   public getAllMediaFiles(){
     return this.http.get(this.apiUrl + '/media/all', this.settingsX);
   }
 
+  /*
+    This is needed to show a specific file in fileview-page
+   */
   public findMediafileWithsId(fileId:number){
     return this.http.get(this.apiUrl + '/media/' + fileId, this.settingsX);
   }
 
+  /*
+    This is needed to combine username to certain user_id, so that it can be shown, who has posted a photo/audio/video
+   */
   public getUserInfo(userId:number){
     return this.http.get(this.apiUrl+'/users/'+userId,this.settingsX);
+  }
+
+  public getCommentsByFileId(fileId:number){
+    return this.http.get(this.apiUrl+'/comments/file/'+fileId);
   }
 
 }

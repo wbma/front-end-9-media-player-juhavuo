@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FileParameters} from "../../models/FileParameters";
 import {MediaProvider} from "../../providers/media/media";
 import {Imagefile} from "../../models/Imagefile";
+import {CommentInfo} from "../../models/CommentInfo";
+import {UserInfo} from "../../models/UserInfo";
 
 /**
  * Generated class for the FileviewPage page.
@@ -22,6 +24,8 @@ export class FileviewPage {
   sizetext = '';
 
   shownFile: any;
+  commenter: UserInfo;
+  showComments = false;
 
   mediafile: Imagefile = {
     file_id: 0,
@@ -35,6 +39,9 @@ export class FileviewPage {
     time_added: '',
     user_name: ''
   };
+
+  data: any;
+  comments: CommentInfo[];
 
   fileParameters: FileParameters;
 
@@ -52,14 +59,28 @@ export class FileviewPage {
       console.log(response);
       this.shownFile = response;
       this.mediafile = this.shownFile;
-      if(this.mediafile.filesize>1024*1024) {
+      if (this.mediafile.filesize > 1024 * 1024) {
         this.mediafile.filesize = Math.round(100 * this.mediafile.filesize / (1024 * 1024)) / 100;
-        this.sizetext = ''+this.mediafile.filesize+ ' MB';
-      }else{
-        this.mediafile.filesize = Math.round(100*this.mediafile.filesize/ 1024)/100;
+        this.sizetext = '' + this.mediafile.filesize + ' MB';
+      } else {
+        this.mediafile.filesize = Math.round(100 * this.mediafile.filesize / 1024) / 100;
         this.sizetext = '' + this.mediafile.filesize + ' kB';
       }
     });
+
+    this.mediaProvider.getCommentsByFileId(this.fileId) .subscribe((response: CommentInfo[]) => {
+      this.comments = response;
+      if(this.comments.length>0){
+        this.showComments = true;
+      }
+      for(let i = 0;i < this.comments.length;++i){
+        this.mediaProvider.getUserInfo(this.comments[i].user_id).subscribe((response2: UserInfo)=>{
+          this.commenter = response2;
+          this.comments[i].user_name = this.commenter.username;
+        });
+      }
+    });
+
   }
 
 }

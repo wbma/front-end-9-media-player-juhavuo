@@ -24,4 +24,10 @@
   <div *ngIf="mediafile.media_type === 'video'">
     <video [src]="mediaProvider.mediaUrl + mediafile.filename" controls></video>
   </div>
+  <h3>Comments</h3>
+  <ul *ngFor = "let c of comments">
+    <li>
+      <p>{{c.user_name}}: {{c.comment}}</p>
+    </li>
+  </ul>
 </ion-content>

@@ -134,12 +134,18 @@ export class HomePage {
     }
   }
 
+  /*
+    Go to the start page
+   */
   goToFirstSet(){
     this.startingPoint = 0;
     this.lastOfPage = this.startingPoint+this.photosPerView-1;
     this.getMediaFiles();
   }
 
+  /*
+    Go to the last page
+  */
   goToLastSet(){
     this.startingPoint = Math.floor(this.filecount/this.photosPerView)*this.photosPerView;
     this.lastOfPage = this.startingPoint+this.photosPerView-1;
@@ -149,6 +155,9 @@ export class HomePage {
     this.getMediaFiles();
   }
 
+  /*
+    This function is helper function, when one goes from one page to another. This loads ne
+   */
   getMediaFiles(){
     this.mediaProvider.getNewMediaFiles(this.startingPoint,this.photosPerView).subscribe(response3 => {
       this.files = response3;
