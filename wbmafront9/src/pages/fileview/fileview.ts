@@ -83,5 +83,23 @@ export class FileviewPage {
 
   }
 
+  addAComment(){
+    this.mediaProvider.addComment(this.fileId).subscribe(res => {
+      console.log(res);
+      this.mediaProvider.getCommentsByFileId(this.fileId) .subscribe((response: CommentInfo[]) => {
+        this.comments = response;
+        if(this.comments.length>0){
+          this.showComments = true;
+        }
+        for(let i = 0;i < this.comments.length;++i){
+          this.mediaProvider.getUserInfo(this.comments[i].user_id).subscribe((response2: UserInfo)=>{
+            this.commenter = response2;
+            this.comments[i].user_name = this.commenter.username;
+          });
+        }
+      });
+    });
+  }
+
 }
 

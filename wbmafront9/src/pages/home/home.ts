@@ -19,6 +19,7 @@ export class HomePage {
   startingPoint = 0;
   photosPerView = 10;
   lastOfPage = this.photosPerView-1;
+  endOfPhotos = 0;
   userName = '';
   adderOfFile = '';
 
@@ -87,6 +88,7 @@ export class HomePage {
             if (response4 !== undefined){
               this.query=response4;
               this.filecount=this.query.file_count.total;
+              this.endOfPhotos = this.filecount-1;
             }else{
               console.log(undefined);
             }
@@ -118,8 +120,8 @@ export class HomePage {
   viewNextPhotos() {
     this.startingPoint += this.photosPerView;
     this.lastOfPage = this.startingPoint+this.photosPerView-1;
-    if(this.lastOfPage>this.filecount){
-      this.lastOfPage=this.filecount;
+    if(this.lastOfPage>this.endOfPhotos){
+      this.lastOfPage=this.endOfPhotos;
     }
     this.getMediaFiles();
   }
@@ -147,10 +149,10 @@ export class HomePage {
     Go to the last page
   */
   goToLastSet(){
-    this.startingPoint = Math.floor(this.filecount/this.photosPerView)*this.photosPerView;
+    this.startingPoint = Math.floor(this.endOfPhotos/this.photosPerView)*this.photosPerView;
     this.lastOfPage = this.startingPoint+this.photosPerView-1;
-    if(this.lastOfPage>this.filecount){
-      this.lastOfPage = this.filecount;
+    if(this.lastOfPage>this.endOfPhotos){
+      this.lastOfPage = this.endOfPhotos;
     }
     this.getMediaFiles();
   }

@@ -15,6 +15,7 @@ import {LoginPage} from "../../pages/login/login";
 @Injectable()
 export class MediaProvider {
 
+  newComment = '';
   username: string;
   password: string;
   email: string;
@@ -41,6 +42,7 @@ export class MediaProvider {
       username: this.username,
       password: this.password
     };
+
 
 
     const settings = {
@@ -106,6 +108,16 @@ export class MediaProvider {
 
   public getCommentsByFileId(fileId:number){
     return this.http.get(this.apiUrl+'/comments/file/'+fileId);
+  }
+
+  public addComment(fileId:number){
+
+    const cBody = {
+      "file_id": fileId,
+      "comment": this.newComment
+    }
+
+    return this.http.post(this.apiUrl+'/comments',cBody, this.settingsX);
   }
 
 }
