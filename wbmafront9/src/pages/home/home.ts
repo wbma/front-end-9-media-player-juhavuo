@@ -64,11 +64,10 @@ export class HomePage {
       this.mediaProvider.getUserData().subscribe(response => {
         this.userName = response ['username'];
         //find the first files
-        this.mediaProvider.getNewMediaFiles(0, this.photosPerView).subscribe(response2 => {
+        this.mediaProvider.getNewMediaFiles(0, this.photosPerView).subscribe((response2: Imagefile[]) => {
           console.log(response2);
           if (response2 !== undefined || response2 !== null) {
-            this.files = response2;
-            this.mediafiles = this.files;
+            this.mediafiles = response2;
             console.log(this.mediafiles);
 
             //find all the usernames corresponding to user_id:s of the ones that added files
@@ -161,9 +160,8 @@ export class HomePage {
     This function is helper function, when one goes from one page to another. This loads ne
    */
   getMediaFiles(){
-    this.mediaProvider.getNewMediaFiles(this.startingPoint,this.photosPerView).subscribe(response3 => {
-      this.files = response3;
-      this.mediafiles = this.files;
+    this.mediaProvider.getNewMediaFiles(this.startingPoint,this.photosPerView).subscribe((response3: Imagefile[]) => {
+      this.mediafiles = response3;
       for(let i = 0; i<this.mediafiles.length;++i){
         this.mediaProvider.getUserInfo(this.mediafiles[i].user_id).subscribe(response => {
           this.mediafiles[i].user_name = response['username'];

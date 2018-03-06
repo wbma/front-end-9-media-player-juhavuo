@@ -5,6 +5,7 @@ import {MediaProvider} from "../../providers/media/media";
 import {Imagefile} from "../../models/Imagefile";
 import {CommentInfo} from "../../models/CommentInfo";
 import {UserInfo} from "../../models/UserInfo";
+import {TagInfo} from "../../models/TagInfo";
 
 /**
  * Generated class for the FileviewPage page.
@@ -23,7 +24,6 @@ export class FileviewPage {
   fileId: number;
   sizetext = '';
 
-  shownFile: any;
   commenter: UserInfo;
   showComments = false;
 
@@ -45,6 +45,8 @@ export class FileviewPage {
 
   fileParameters: FileParameters;
 
+  tagsOfFile: TagInfo[];
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
 
     this.navParams.get('paramsForFile');
@@ -55,10 +57,9 @@ export class FileviewPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad FileviewPage');
     this.fileId = this.fileParameters.file_id;
-    this.mediaProvider.findMediafileWithsId(this.fileId).subscribe(response => {
+    this.mediaProvider.findMediafileWithsId(this.fileId).subscribe((response: Imagefile) => {
       console.log(response);
-      this.shownFile = response;
-      this.mediafile = this.shownFile;
+      this.mediafile = response;
       if (this.mediafile.filesize > 1024 * 1024) {
         this.mediafile.filesize = Math.round(100 * this.mediafile.filesize / (1024 * 1024)) / 100;
         this.sizetext = '' + this.mediafile.filesize + ' MB';
@@ -68,6 +69,20 @@ export class FileviewPage {
       }
     });
 
+   this.getCommensRequest();
+
+   this.getTagsRequest();
+
+  }
+
+  addAComment(){
+    this.mediaProvider.addComment(this.fileId).subscribe(res => {
+      console.log(res);
+      this.getCommensRequest();
+    });
+  }
+
+  getCommensRequest(){
     this.mediaProvider.getCommentsByFileId(this.fileId) .subscribe((response: CommentInfo[]) => {
       this.comments = response;
       if(this.comments.length>0){
@@ -80,24 +95,11 @@ export class FileviewPage {
         });
       }
     });
-
   }
 
-  addAComment(){
-    this.mediaProvider.addComment(this.fileId).subscribe(res => {
-      console.log(res);
-      this.mediaProvider.getCommentsByFileId(this.fileId) .subscribe((response: CommentInfo[]) => {
-        this.comments = response;
-        if(this.comments.length>0){
-          this.showComments = true;
-        }
-        for(let i = 0;i < this.comments.length;++i){
-          this.mediaProvider.getUserInfo(this.comments[i].user_id).subscribe((response2: UserInfo)=>{
-            this.commenter = response2;
-            this.comments[i].user_name = this.commenter.username;
-          });
-        }
-      });
+  getTagsRequest(){
+    this.mediaProvider.showTagsByFile(this.fileId).subscribe((tagres:TagInfo[]) => {
+      this.tagsOfFile = tagres;
     });
   }
 

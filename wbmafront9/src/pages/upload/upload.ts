@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {MediaProvider} from "../../providers/media/media";
 import {Imagefile} from "../../models/Imagefile";
+import {UploadInfo} from "../../models/UploadInfo";
 
 /**
  * Generated class for the UploadPage page.
@@ -31,6 +32,11 @@ export class UploadPage {
     user_name: ''
   }
 
+  uploadInfo: UploadInfo = {
+    message: '',
+    file_id: 0
+  };
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public mediaProvider: MediaProvider) {
   }
 
@@ -56,11 +62,17 @@ export class UploadPage {
     console.log(this.file.toString())
     console.log(this.imagefile.title);
     console.log(this.imagefile.description);
-    this.mediaProvider.uploadFile(formData).subscribe(response => {
+    this.mediaProvider.uploadFile(formData).subscribe((response: UploadInfo) => {
+      this.uploadInfo = response;
+      this.mediaProvider.addTag(this.uploadInfo.file_id).subscribe( response2 => {
+        console.log("Response of tag adding:");
+        console.log(response2);
+      });
       this.navCtrl.popToRoot();
     }, (error) => {
       alert('Something went wrong!!!');
     });
   }
+
 
 }

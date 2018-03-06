@@ -15,6 +15,7 @@ import {LoginPage} from "../../pages/login/login";
 @Injectable()
 export class MediaProvider {
 
+  tagToAdd= '';
   newComment = '';
   username: string;
   password: string;
@@ -115,9 +116,23 @@ export class MediaProvider {
     const cBody = {
       "file_id": fileId,
       "comment": this.newComment
-    }
+    };
 
     return this.http.post(this.apiUrl+'/comments',cBody, this.settingsX);
+  }
+
+  public addTag(fileId:number){
+      const tBody = {
+        "file_id": fileId,
+        "tag": this.tagToAdd
+      };
+
+      return this.http.post(this.apiUrl+'/tags',tBody, this.settingsX);
+  }
+
+  public showTagsByFile(fileId:number){
+
+    return this.http.get(this.apiUrl+'/tags/file/' + fileId);
   }
 
 }

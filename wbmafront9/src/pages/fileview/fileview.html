@@ -25,6 +25,10 @@
   <div *ngIf="mediafile.media_type === 'video'">
     <video [src]="mediaProvider.mediaUrl + mediafile.filename" controls></video>
   </div>
+  <p>Tags:</p>
+  <ul *ngFor = "let c of tagsOfFile">
+    <li>{{c.tag}}</li>
+  </ul >
   <p><input type="text" [(ngModel)]="mediaProvider.newComment"><button (click)="addAComment()">Add a comment!</button></p>
   <h3>Comments</h3>
   <ul *ngFor = "let c of comments">

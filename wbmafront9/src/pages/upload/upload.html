@@ -19,5 +19,7 @@
   <input [(ngModel)]="imagefile.title"  type="text" name="title"><br>
   <label>Give some description</label><br>
   <input [(ngModel)]="imagefile.description" type="text" name="description" ><br>
+  <label>Add tag:</label><br>
+  <input [(ngModel)]="mediaProvider.tagToAdd" type="text"><br>
   <button (click)="startUpload()"> go go go button go go go</button>
 </ion-content>
